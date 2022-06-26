@@ -1,0 +1,6 @@
+patch:
+  "style/layout/border_width": 0
+  "style/layout/border": 0
+  # "style/horizontal": true #横排显示候选词
+  "style/font_face": "sarasa ui sc" # 候选词字体
+  "style/font_point": 12 # 候选词字号

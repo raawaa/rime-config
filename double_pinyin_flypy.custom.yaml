@@ -1,0 +1,54 @@
+patch:
+  speller/algebra/@after 2: derive/([ei])n$/$1ng/
+  speller/algebra/@after 3: derive/([ei])ng$/$1n/
+  switches/@next:
+    name: emoji_suggestion
+    reset: 1
+    states: ["No", "Yes"]
+  "engine/filters/@before 0": simplifier@emoji_suggestion
+  emoji_suggestion:
+    opencc_config: emoji.json
+    option_name: emoji_suggestion
+    tips: all
+  engine/translators/+:
+    - lua_translator@date_translator
+    - lua_translator@number_translator
+  punctuator:
+    import_preset: symbols
+    # 自定义快捷符号输入
+    # symbols:
+    #   "/fs": [½, ‰, ¼, ⅓, ⅔, ¾, ⅒ ]
+    half_shape:
+      #   "#": "#"
+      #   "*": "*"
+      #   "`": "`"
+      #   "~": "~"
+      #   "@": "@"
+      #   "=": "="
+      #   "/": ["/", "÷",]
+      #   '\': "、"
+      #   "_" : "──"
+      "'": { pair: ["「", "」"] }
+    #   "[": ["【", "["]
+    #   "]": ["】", "]"]
+    #   "$": ["¥", "$", "€", "£", "¢", "¤"]
+    #   "<": ["《", "〈", "«", "<"]
+    #   ">": ["》", "〉", "»", ">"]
+
+  "punctuator/import_preset": symbols
+  "recognizer/patterns/punct": "^/([A-Z|a-z]*|[0-9]|10)$"
+
+  
+  #載入朙月拼音擴充詞庫
+  'translator/dictionary': luna_pinyin.extended
+  'translator/preedit_format': {}
+
+    ### 双拼使用自定义词典 custom_phrase.txt
+  custom_phrase:
+    dictionary: ""
+    user_dict: custom_phrase
+    db_class: stabledb
+    enable_completion: false
+    enable_sentence: false
+    initial_quality: 1
+  "engine/translators/@5": table_translator@custom_phrase

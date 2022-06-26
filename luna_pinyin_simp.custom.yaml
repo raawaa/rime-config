@@ -1,0 +1,36 @@
+patch:
+  switches/@next:
+    name: emoji_suggestion
+    reset: 1
+    states: ["No", "Yes"]
+  "engine/filters/@before 0": simplifier@emoji_suggestion
+  emoji_suggestion:
+    opencc_config: emoji.json
+    option_name: emoji_suggestion
+    tips: all
+  engine/translators/+:
+    - lua_translator@date_translator
+  punctuator:
+    import_preset: symbols
+    # 自定义快捷符号输入
+    # symbols:
+    #   "/fs": [½, ‰, ¼, ⅓, ⅔, ¾, ⅒ ]
+    half_shape:
+      #   "#": "#"
+      #   "*": "*"
+      #   "`": "`"
+      #   "~": "~"
+      #   "@": "@"
+      #   "=": "="
+      #   "/": ["/", "÷",]
+      #   '\': "、"
+      #   "_" : "──"
+      "'": { pair: ["「", "」"] }
+    #   "[": ["【", "["]
+    #   "]": ["】", "]"]
+    #   "$": ["¥", "$", "€", "£", "¢", "¤"]
+    #   "<": ["《", "〈", "«", "<"]
+    #   ">": ["》", "〉", "»", ">"]
+
+  "punctuator/import_preset": symbols
+  "recognizer/patterns/punct": "^/([A-Z|a-z]*|[0-9]|10)$"
